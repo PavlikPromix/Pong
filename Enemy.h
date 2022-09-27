@@ -19,4 +19,5 @@ public:
     void MoveTo(sf::Vector2f position);
     void Draw(sf::RenderWindow &window) const;
     inline void Restart() {shape.setPosition(sf::Vector2f((dSize.x - shape.getSize().x) / 2, 0));}
+    inline void SpeedUp(float ratio) { speed *= ratio; }
 };

@@ -8,8 +8,8 @@ Ball::Ball(const sf::Vector2i &displaySize)
     shape.setOrigin(sf::Vector2(5.0f, 5.0f));
     shape.setPosition(sf::Vector2f(displaySize.x / 2, displaySize.y / 2));
 
-    const float direction[5] = {0.0f, 1.0f, -1.0f, 1.5f, -1.5f};
-    SetAngle(sf::Vector2f(direction[rand() % 5], direction[rand() % 4 + 1]));
+    const float direction[7] = {0.0f, 1.0f, -1.0f, 2.5f, -2.5f, 3.0f, -3.0f};
+    SetAngle(sf::Vector2f(direction[rand() % 5], direction[rand() % 4 + 3]));
     dSize = displaySize;
 }
 
@@ -33,7 +33,7 @@ void Ball::CollisionCheck(const sf::Vector2f &playerPos)
         SetPos(sf::Vector2f(dSize.x - 10, GetPos().y));
         SetAngle(sf::Vector2f(-GetAngle().x, GetAngle().y));
     }
-    if (GetPos().x > playerPos.x - 8 && GetPos().x < playerPos.x + dSize.x + 8 * 0.4f && GetPos().y > dSize.y - 20 && GetPos().y < dSize.y)
+    if (GetPos().x > playerPos.x - 8 && GetPos().x < playerPos.x + dSize.x + 8 * 0.4f && GetPos().y > dSize.y - 20)
     { // Player collision detected
         SetPos(sf::Vector2f(GetPos().x, dSize.y - 20));
         float centerx = playerPos.x + (dSize.x * 0.2f);
@@ -45,7 +45,7 @@ void Ball::CollisionCheck(const sf::Vector2f &playerPos)
         SpeedUp();
         // std::cout << moveAngle.y << ' ' << GetAngle().x << '\n';
     }
-    if (GetPos().x > playerPos.y && GetPos().x < playerPos.y + dSize.x * 0.4f && GetPos().y < 10 && GetPos().y > 0)
+    if (GetPos().x > playerPos.y && GetPos().x < playerPos.y + dSize.x * 0.4f && GetPos().y < 10)
     { // Enemy collision detected
         SetPos(sf::Vector2f(GetPos().x, 10));
         float centerx = playerPos.y + (dSize.x * 0.2f);
@@ -71,5 +71,5 @@ void Ball::Move(const sf::Vector2f &positions)
 
 void Ball::SpeedUp()
 {
-    SetAngle(sf::Vector2f(GetAngle().x, GetAngle().y - acceleration));
+    SetAngle(sf::Vector2f(GetAngle().x, GetAngle().y * acceleration));
 }

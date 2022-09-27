@@ -28,10 +28,10 @@ int main()
 	sf::Font f;
 	f.loadFromFile("C:\\Windows\\Fonts\\arialbd.ttf");
 	t.setFont(f);
-	t.setCharacterSize(WIDTH/5);
+	t.setCharacterSize(WIDTH / 5);
 	t.setString("0");
 	t.setFillColor(sf::Color(255, 255, 255, 50));
-	t.setPosition(sf::Vector2f(WIDTH/2-WIDTH/25, HEIGHT/2-WIDTH/10));
+	t.setPosition(sf::Vector2f(WIDTH / 2 - WIDTH / 25, HEIGHT / 2 - WIDTH / 10));
 
 	int score = 0;
 
@@ -49,23 +49,12 @@ int main()
 			if (event.type == sf::Event::MouseMoved && !paused)
 				mPlayer.SetPos(event.mouseMove.x - (int)(WIDTH * 0.2));
 		}
-		window.clear(sf::Color::Black);
-		if (!paused)
-		{
-			mBall.Move(sf::Vector2f(mPlayer.GetPos().x, mEnemy.GetPos().x));
-			mEnemy.MoveTo(mBall.GetPos());
-		}
-
-		mBall.Draw(window);
-		mPlayer.Draw(window);
-		mEnemy.Draw(window);
-		window.draw(t);
-
-		window.display();
 
 		if (mBall.GetPos().y > HEIGHT)
 		{
 			std::cout << "YOU LOSE!" << '\n';
+			score = 0;
+			mEnemy.SpeedUp(1.2f);
 			Restart(mPlayer, mEnemy, mBall);
 			window.clear(sf::Color::Black);
 
@@ -81,6 +70,7 @@ int main()
 		{
 			std::cout << "YOU WIN!" << '\n';
 			score++;
+			mEnemy.SpeedUp(1.3f);
 			t.setString(std::to_string(score));
 			Restart(mPlayer, mEnemy, mBall);
 			window.clear(sf::Color::Black);
@@ -93,6 +83,20 @@ int main()
 
 			std::this_thread::sleep_for(std::chrono::milliseconds(1000));
 		}
+
+		window.clear(sf::Color::Black);
+		if (!paused)
+		{
+			mBall.Move(sf::Vector2f(mPlayer.GetPos().x, mEnemy.GetPos().x));
+			mEnemy.MoveTo(mBall.GetPos());
+		}
+
+		window.draw(t);
+		mBall.Draw(window);
+		mPlayer.Draw(window);
+		mEnemy.Draw(window);
+
+		window.display();
 	}
 	return 0;
 }
